@@ -3,23 +3,29 @@ import { Footer, Navbar } from '../../components'
 import axios from 'axios';
 import { baseURL } from '../../base';
 import { message } from 'antd';
+import { useDispatch } from 'react-redux';
+import { setLoading } from '../../redux/loaderreducer.js'
 const Home = () => {
 
   const [cards, setCards] = useState([]);
   const [search, setSearch] = useState('');
+  const dispatch = useDispatch();
 
   const getCards = async (param) => {
     try {
-      if (param.search === '') {
+      dispatch(setLoading(true));
+      if (param?.search === '') {
         delete param.search;
       }
       const { data } = await axios.get(`${baseURL}/card/list`, {
         params: { ...param }
       });
       setCards(data.data);
+      dispatch(setLoading(false));
       message.success('Cards fetched successfully');
     } catch (error) {
       console.log(error);
+      dispatch(setLoading(false));
       message.error('Failed to fetch cards');
     }
   };
