@@ -32,7 +32,7 @@ const Home = () => {
 
   useEffect(() => {
     getCards();
-  }, []);
+  }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div>
